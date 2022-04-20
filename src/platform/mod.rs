@@ -554,6 +554,20 @@ mod platform_impl {
 
     impl_platform_host!(WebAudio webaudio "WebAudio");
 
+    impl Stream {
+        /// Call `resume()` on its [`AudioContext`](https://developer.mozilla.org/docs/Web/API/AudioContext).
+        ///
+        /// In Chrome, if a `AudioContext` is created before a user interaction, it starts in the
+        /// `suspended` state. To resume it, `resume()` must be called on it after a user
+        /// interaction has happened.
+        pub fn resume(&self) {
+            match &self.0 {
+                StreamInner::WebAudio(x) => x.resume(),
+                _ => {}
+            }
+        }
+    }
+
     /// The default host for the current compilation target platform.
     pub fn default_host() -> Host {
         WebAudioHost::new()

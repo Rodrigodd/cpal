@@ -350,6 +350,14 @@ impl DeviceTrait for Device {
     }
 }
 
+impl Stream {
+    /// Call `resume()` on its `AudioContext`. More docs in cpal::Stream in the wasm32
+    /// target.
+    pub fn resume(&self) {
+        let _ = self.ctx.resume();
+    }
+}
+
 impl StreamTrait for Stream {
     fn play(&self) -> Result<(), PlayStreamError> {
         let window = web_sys::window().unwrap();
